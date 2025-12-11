@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Phone, Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X, Sparkles } from 'lucide-react';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 60) {
+      if (window.scrollY > 20) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
@@ -21,77 +24,74 @@ const Navbar = () => {
     };
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
+  const handleNavigation = (path: string) => {
+    navigate(path);
     setIsMobileMenuOpen(false);
+    window.scrollTo(0, 0);
   };
 
-  const navItems = [
-    { name: 'About', id: 'about' },
-    { name: 'Our Approach', id: 'approach' },
-    { name: 'Services', id: 'services' },
-    { name: 'Contact', id: 'contact' }
-  ];
+  const isCurrent = (path: string) => {
+    if (path === '/' && location.pathname !== '/') return false;
+    return location.pathname.startsWith(path);
+  };
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 shadow-lg backdrop-blur-md py-3 border-b border-gray-100' 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? 'bg-black/80 shadow-lg backdrop-blur-md py-3 border-b border-white/10'
           : 'bg-transparent py-5'
-      }`}
+        }`}
     >
       <div className="container mx-auto flex items-center justify-between px-4 md:px-6">
         {/* Logo */}
         <div className="flex items-center">
-          <a 
-            href="#" 
+          <Link
+            to="/"
             className="transition-transform duration-300 hover:scale-105"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: 'smooth' });
-            }}
+            onClick={() => window.scrollTo(0, 0)}
           >
-            <img 
-              src="/images/logo_hyrloop.webp" 
+            <img
+              src="/images/logo_hyrloop.webp"
               alt="Hyrloop Logo"
-              className={`transition-all duration-300 ${isScrolled ? 'h-12' : 'h-16'}`}
+              className={`transition-all duration-300 ${isScrolled ? 'h-10' : 'h-12'}`}
             />
-          </a>
+          </Link>
         </div>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex items-center space-x-8">
           {navItems.map((item) => (
-            <button 
-              key={item.id}
-              onClick={() => scrollToSection(item.id)} 
-              className={`relative font-medium transition-all duration-300 group ${
-                isScrolled ? 'text-gray-700 hover:text-hyrloop-blue' : 'text-gray-800 hover:text-hyrloop-blue'
-              }`}
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`relative font-medium text-sm transition-all duration-300 group ${isCurrent(item.path)
+                  ? 'text-white'
+                  : 'text-gray-400 hover:text-white'
+                }`}
             >
               {item.name}
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-hyrloop-blue to-indigo-600 transition-all duration-300 group-hover:w-full"></span>
-            </button>
+              <span className={`absolute -bottom-1 left-0 h-0.5 bg-blue-500 transition-all duration-300 ${isCurrent(item.path) ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+            </Link>
           ))}
-          
-          <Button 
-            onClick={() => scrollToSection('contact')} 
-            className="bg-gradient-to-r from-hyrloop-blue to-indigo-600 hover:from-hyrloop-blue-dark hover:to-indigo-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+
+          <Button
+            onClick={() => handleNavigation('/contact')}
+            className="bg-blue-600 hover:bg-blue-700 text-white shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)] transition-all duration-300 rounded-full px-6"
           >
-            <Phone className="w-4 h-4 mr-2" />
-            Book Consultation
+            Get Started
           </Button>
         </div>
 
         {/* Mobile Menu Button */}
         <button
-          className={`md:hidden p-2 rounded-lg transition-all duration-300 ${
-            isScrolled ? 'text-gray-700 hover:bg-gray-100' : 'text-gray-800 hover:bg-white/20'
-          }`}
+          className="md:hidden p-2 text-gray-300 hover:text-white transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle mobile menu"
         >
@@ -104,31 +104,27 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Menu */}
-      <div className={`md:hidden transition-all duration-300 ${
-        isMobileMenuOpen 
-          ? 'max-h-96 opacity-100' 
-          : 'max-h-0 opacity-0 pointer-events-none'
-      } overflow-hidden`}>
-        <div className="bg-white/95 backdrop-blur-md shadow-lg border-t border-gray-100">
-          <div className="flex flex-col space-y-2 p-6">
-            {navItems.map((item) => (
-              <button 
-                key={item.id}
-                onClick={() => scrollToSection(item.id)} 
-                className="text-left py-3 px-4 text-gray-700 hover:text-hyrloop-blue hover:bg-gray-50 rounded-lg transition-all duration-300 font-medium"
-              >
-                {item.name}
-              </button>
-            ))}
-            <div className="pt-4 border-t border-gray-200">
-              <Button 
-                onClick={() => scrollToSection('contact')}
-                className="w-full bg-gradient-to-r from-hyrloop-blue to-indigo-600 hover:from-hyrloop-blue-dark hover:to-indigo-700 text-white shadow-lg"
-              >
-                <Sparkles className="w-4 h-4 mr-2" />
-                Book Free Consultation
-              </Button>
-            </div>
+      <div className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-md border-b border-white/10 transition-all duration-300 overflow-hidden ${isMobileMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+        }`}>
+        <div className="flex flex-col p-6 space-y-4">
+          {navItems.map((item) => (
+            <button
+              key={item.path}
+              onClick={() => handleNavigation(item.path)}
+              className={`text-left text-lg font-medium py-2 border-b border-white/5 ${isCurrent(item.path) ? 'text-blue-400' : 'text-gray-300'
+                }`}
+            >
+              {item.name}
+            </button>
+          ))}
+          <div className="pt-4">
+            <Button
+              onClick={() => handleNavigation('/contact')}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white text-lg py-6"
+            >
+              <Sparkles className="w-5 h-5 mr-2" />
+              Book Consultation
+            </Button>
           </div>
         </div>
       </div>

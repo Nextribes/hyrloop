@@ -1,74 +1,103 @@
 import React from 'react';
-import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Facebook, Twitter, Linkedin, Instagram, Mail, MapPin, Phone } from 'lucide-react';
+
 const Footer = () => {
-  const scrollToSection = (sectionId: string) => {
-    document.getElementById(sectionId)?.scrollIntoView({
-      behavior: 'smooth'
-    });
-  };
-  const currentYear = new Date().getFullYear();
-  return <footer className="bg-hyrloop-gray-dark text-white py-16">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+  return (
+    <footer className="bg-black border-t border-white/10 pt-20 pb-10">
+      <div className="container mx-auto px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          {/* Company Info */}
           <div>
-            <h3 className="text-2xl font-bold mb-6">Hyrloop</h3>
-            <p className="text-gray-300 mb-6">
-              Strategic HR solutions for startups — from day one to hypergrowth.
+            <Link to="/" className="inline-block mb-6">
+              <img src="/images/logo_hyrloop.webp" alt="Hyrloop" className="h-10 opacity-90 hover:opacity-100 transition-opacity" />
+            </Link>
+            <p className="text-gray-400 mb-6 leading-relaxed">
+              Empowering businesses with strategic HR solutions and cutting-edge operational frameworks for sustainable growth.
             </p>
-            
+            <div className="flex space-x-4">
+              {[Linkedin, Twitter, Facebook, Instagram].map((Icon, i) => (
+                <a key={i} href="#" className="p-2 rounded-full bg-white/5 text-gray-400 hover:bg-blue-600 hover:text-white transition-all duration-300">
+                  <Icon className="h-5 w-5" />
+                </a>
+              ))}
+            </div>
           </div>
-          
+
+          {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Navigation</h4>
+            <h4 className="text-white font-bold text-lg mb-6">Company</h4>
             <ul className="space-y-4">
-              <li>
-                <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors">
-                  About
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollToSection('approach')} className="text-gray-300 hover:text-white transition-colors">
-                  Our Approach
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white transition-colors">
-                  Services
-                </button>
-              </li>
-              <li>
-                <button onClick={() => scrollToSection('contact')} className="text-gray-300 hover:text-white transition-colors">
-                  Contact
-                </button>
-              </li>
+              {[
+                { name: 'About Us', path: '/about' },
+                { name: 'Our Services', path: '/services' },
+                { name: 'Careers', path: '/careers' },
+                { name: 'Contact', path: '/contact' }
+              ].map((link) => (
+                <li key={link.name}>
+                  <Link to={link.path} className="text-gray-400 hover:text-blue-400 transition-colors">
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-          
+
+          {/* Services */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Services</h4>
+            <h4 className="text-white font-bold text-lg mb-6">Services</h4>
             <ul className="space-y-4">
-              <li className="text-gray-300 hover:text-white transition-colors">Talent Acquisition</li>
-              <li className="text-gray-300 hover:text-white transition-colors">Employer Branding</li>
-              <li className="text-gray-300 hover:text-white transition-colors">HR Tech Implementation</li>
-              <li className="text-gray-300 hover:text-white transition-colors">People Strategy</li>
+              {[
+                'HR Consulting',
+                'Staffing Solutions',
+                'GCC Setup',
+                'Executive Search',
+                'Employee Training'
+              ].map((service) => (
+                <li key={service}>
+                  <Link to="/services" className="text-gray-400 hover:text-blue-400 transition-colors">
+                    {service}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-          
+
+          {/* Contact */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Contact Info</h4>
-            <address className="not-italic text-gray-300 space-y-2">
-              <p>F 606, Jaipuria sunrise greens</p>
-              <p>Indirapuram, Ghaziabad, UP, India</p>
-              <p>Email: info@hyrloop.com</p>
-              <p>Phone: +91 95556 24372</p>
-            </address>
+            <h4 className="text-white font-bold text-lg mb-6">Get in Touch</h4>
+            <ul className="space-y-6">
+              <li className="flex items-start">
+                <MapPin className="h-6 w-6 text-blue-500 mr-3 mt-0.5" />
+                <span className="text-gray-400">
+                  F 606, Jaipuria Sunrise Greens<br />
+                  Indirapuram, Ghaziabad, UP, India
+                </span>
+              </li>
+              <li className="flex items-center">
+                <Phone className="h-5 w-5 text-blue-500 mr-3" />
+                <span className="text-gray-400">+91 95556 24372</span>
+              </li>
+              <li className="flex items-center">
+                <Mail className="h-5 w-5 text-blue-500 mr-3" />
+                <span className="text-gray-400">info@hyrloop.com</span>
+              </li>
+            </ul>
           </div>
         </div>
-        
-        <div className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400">
-          <p>© {currentYear} Hyrloop. All rights reserved.</p>
+
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
+          <p className="text-gray-500 text-sm mb-4 md:mb-0">
+            © {new Date().getFullYear()} Hyrloop. All rights reserved.
+          </p>
+          <div className="flex space-x-6">
+            <Link to="/privacy" className="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</Link>
+          </div>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;
