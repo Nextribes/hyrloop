@@ -86,13 +86,34 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            © {new Date().getFullYear()} Hyrloop. All rights reserved.
-          </p>
-          <div className="flex space-x-6">
-            <Link to="/privacy" className="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</Link>
-            <Link to="/terms" className="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</Link>
+        <div className="pt-8 border-t border-white/10">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
+            <p className="text-gray-500 text-sm">
+              © {new Date().getFullYear()} Hyrloop. All rights reserved.
+            </p>
+            <div className="flex space-x-6">
+              <Link to="/privacy" className="text-gray-500 hover:text-white text-sm transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="text-gray-500 hover:text-white text-sm transition-colors">Terms of Service</Link>
+            </div>
+          </div>
+
+          {/* Powered by Nextribes */}
+          <div className="flex justify-center items-center pt-4 border-t border-white/5">
+            <a
+              href="https://www.nextribes.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-gray-500 hover:text-gray-400 transition-colors group"
+            >
+              <span className="text-xs">Powered by</span>
+              <div className="bg-white px-2 py-1 rounded">
+                <img
+                  src="https://nextribes.com/images/logo2.png"
+                  alt="Nextribes"
+                  className="h-4 opacity-90 group-hover:opacity-100 transition-opacity"
+                />
+              </div>
+            </a>
           </div>
         </div>
       </div>
