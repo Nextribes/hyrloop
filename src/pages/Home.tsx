@@ -49,13 +49,13 @@ const Home = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {whyChooseUs.map((item, index) => (
-                            <ScrollReveal key={index} delay={index * 100}>
-                                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors">
+                            <ScrollReveal key={index} delay={index * 100} className="h-full" width="100%">
+                                <div className="h-full flex flex-col bg-zinc-900 border border-zinc-800 rounded-xl p-6 hover:border-zinc-700 transition-colors">
                                     <div className="w-10 h-10 rounded-lg bg-blue-950/50 flex items-center justify-center mb-4">
                                         <item.icon className="h-5 w-5 text-blue-400" />
                                     </div>
                                     <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
-                                    <p className="text-sm text-gray-400 leading-relaxed">{item.description}</p>
+                                    <p className="text-sm text-gray-400 leading-relaxed flex-grow">{item.description}</p>
                                 </div>
                             </ScrollReveal>
                         ))}
